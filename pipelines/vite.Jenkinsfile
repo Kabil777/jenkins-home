@@ -16,7 +16,7 @@ pipeline {
         stage('clone repository'){
           steps{
                container('docker'){
-                   git branch: 'main', url: "${REPO_URL}"
+                   git branch: 'main', url: "${env.REPO_URL}"
               }
            }
         }
