@@ -3,7 +3,7 @@ import org.yaml.snakeyaml.Yaml
 
 // Load repository.yaml
 def yaml = new Yaml()
-def reposFile = new File("${WORKSPACE}/jenkins-configs/repository.yaml")
+def reposFile = new File("${WORKSPACE}/repository.yaml")
 def config = yaml.load(reposFile.text)
 
 config.repos.each { repo ->
