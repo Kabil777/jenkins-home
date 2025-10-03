@@ -1,0 +1,4 @@
+repos:
+  - name: jaymithran-portfolio
+    url: https://github.com/JAYMITHRAN/Jenkins.git
+    type: vite

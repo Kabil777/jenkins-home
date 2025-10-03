@@ -1,0 +1,69 @@
+pipeline {
+    agent { label 'docker-agent' }
+
+    environment {
+        DOCKER_CREDENTIALS_ID = "dockerhub-credentials" // Jenkins credentials ID
+        IMAGE_NAME = "kabil07/demo-calculator"
+        IMAGE_TAG = "latest"
+    }
+
+    stages {
+        stage('Print Docker Version') {
+            steps {
+                container('docker') {
+                    sh 'docker version'
+                }
+            }
+        }
+        stage('clone repository'){
+          steps{
+               container('docker'){
+                   git branch: 'main', url: 'https://github.com/JAYMITHRAN/Jenkins.git'
+              }
+           }
+        }
+         stage('List of files'){
+      steps{
+        container('docker'){
+            sh 'ls -a'
+        }
+      }
+    }
+        stage('Build Docker Image') {
+            steps {
+                container('docker') {
+                    // sh '''
+                    // echo -e "FROM alpine:3.14\nCMD [\\"echo\\", \\"Hello from configured Docker Agent!\\"]" > Dockerfile
+                    // docker build -t my-app-image .
+                    // '''
+                    sh'''
+                      docker build -t $IMAGE_NAME:$IMAGE_TAG .
+                    ''' 
+                }
+            }
+        }
+
+        stage('Push to Repository') {
+            steps {
+                container('docker') {
+                    withCredentials([usernamePassword(
+                        credentialsId: "$DOCKER_CREDENTIALS_ID",
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                    )]) {
+                        sh '''
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                        docker push $IMAGE_NAME:$IMAGE_TAG
+                        '''
+                    }
+            }
+        }
+    }
+}
+    post {
+        always {
+            echo 'Pipeline finished!'
+        }
+    }
+
+}
