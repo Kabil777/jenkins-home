@@ -5,3 +5,9 @@ repos:
     image:
       name: kabil07/demo-calculator
       tag: latest
+  - name: calc
+    url: https://github.com/JAYMITHRAN/Jenkins.git
+    type: vite
+    image:
+      name: kabil07/demo-calculator
+      tag: latest
