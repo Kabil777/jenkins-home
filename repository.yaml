@@ -5,7 +5,7 @@ repos:
     image:
       name: kabil07/demo-calculator
       tag: latest
-    update: false
+    update: true
   - name: calc
     url: https://github.com/JAYMITHRAN/Jenkins.git
     type: vite
