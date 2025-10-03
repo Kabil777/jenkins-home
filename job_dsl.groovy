@@ -1,4 +1,3 @@
-checkout scm
 import org.yaml.snakeyaml.Yaml
 
 def yaml = new Yaml()
