@@ -32,7 +32,6 @@ pipeline {
                 container('docker') {
                     // sh '''
                     // echo -e "FROM alpine:3.14\nCMD [\\"echo\\", \\"Hello from configured Docker Agent!\\"]" > Dockerfile
-                    // docker build -t my-app-image .
                     // '''
                    sh "docker build -t ${params.IMAGE_NAME}:${params.IMAGE_TAG} ."
                 }
