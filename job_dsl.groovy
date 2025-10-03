@@ -1,7 +1,5 @@
-@Grab('org.yaml:snakeyaml:1.30')
 import org.yaml.snakeyaml.Yaml
 
-// Load repository.yaml
 def yaml = new Yaml()
 def reposFile = new File("${WORKSPACE}/repository.yaml")
 def config = yaml.load(reposFile.text)
@@ -12,7 +10,7 @@ config.repos.each { repo ->
         definition {
             cps {
                 // load the right Jenkinsfile template based on type
-                script(readFileFromWorkspace("piplines/${repo.type}.Jenkinsfile"))
+                script(readFileFromWorkspace("pipelines/${repo.type}.Jenkinsfile"))
             }
         }
     }
