@@ -12,7 +12,7 @@ config.repos.each { repo ->
         definition {
             cps {
                 // load the right Jenkinsfile template based on type
-                script(readFileFromWorkspace("jenkins-configs/piplines/${repo.type}.Jenkinsfile"))
+                script(readFileFromWorkspace("piplines/${repo.type}.Jenkinsfile"))
             }
         }
     }
