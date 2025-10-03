@@ -2,9 +2,10 @@ pipeline {
     agent { label 'docker-agent' }
 
     environment {
-        DOCKER_CREDENTIALS_ID = "dockerhub-credentials" // Jenkins credentials ID
-        IMAGE_NAME = "kabil07/demo-calculator"
-        IMAGE_TAG = "latest"
+        DOCKER_CREDENTIALS_ID = "dockerhub-credentials" 
+        IMAGE_NAME = "${env.IMAGE_NAME}"
+        IMAGE_TAG = "${env.IMAGE_TAG}"
+        REPO_URL = "${env.REPO_URL}"
     }
 
     stages {
@@ -18,16 +19,16 @@ pipeline {
         stage('clone repository'){
           steps{
                container('docker'){
-                   git branch: 'main', url: 'https://github.com/JAYMITHRAN/Jenkins.git'
+                   git branch: 'main', url: "${REPO_URL}"
               }
            }
         }
-         stage('List of files'){
-      steps{
-        container('docker'){
-            sh 'ls -a'
+      stage('List of files'){
+        steps{
+           container('docker'){
+             sh 'ls -a'
+           }
         }
-      }
     }
         stage('Build Docker Image') {
             steps {

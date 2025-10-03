@@ -1,4 +1,7 @@
 repos:
-  - name: jaymithran-portfolio
+  - name: demo-calc
     url: https://github.com/JAYMITHRAN/Jenkins.git
     type: vite
+    image:
+      name: kabil07/demo-calculator
+      tag: latest
