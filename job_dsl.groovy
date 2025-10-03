@@ -27,7 +27,6 @@ config.repos.each { repo ->
     }
 }
 
-def sa = Jenkins.instance.getExtensionList(ScriptApproval.class)[0]
 sa.getPendingSignatures().each { sig ->
     sa.approveSignature(sig.signature)
 }
