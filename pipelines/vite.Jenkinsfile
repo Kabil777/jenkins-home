@@ -34,7 +34,7 @@ pipeline {
                     // echo -e "FROM alpine:3.14\nCMD [\\"echo\\", \\"Hello from configured Docker Agent!\\"]" > Dockerfile
                     // docker build -t my-app-image .
                     // '''
-                   sh "docker build -t ${params.IMAGE_NAME}:${params.IMAGE_TAG} "
+                   sh "docker build -t ${params.IMAGE_NAME}:${params.IMAGE_TAG} ."
                 }
             }
         }
@@ -47,7 +47,12 @@ pipeline {
                         usernameVariable: 'DOCKER_USER',
                         passwordVariable: 'DOCKER_PASS'
                     )]) {
-                      sh "docker build -t ${params.IMAGE_NAME}:${params.IMAGE_TAG}"
+
+                 sh """
+                    echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
+                    docker build -t ${params.IMAGE_NAME}:${params.IMAGE_TAG} .
+                    docker push ${params.IMAGE_NAME}:${params.IMAGE_TAG}
+                    """
                     }
             }
         }
