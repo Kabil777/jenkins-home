@@ -1,8 +1,8 @@
+checkout scm
 import org.yaml.snakeyaml.Yaml
 
 def yaml = new Yaml()
-def reposFile = new File("${WORKSPACE}/repository.yaml")
-def config = yaml.load(reposFile.text)
+def config = yaml.load(readFileFromWorkspace("repository.yaml"))
 
 config.repos.each { repo ->
     pipelineJob("${repo.name}-pipeline") {
