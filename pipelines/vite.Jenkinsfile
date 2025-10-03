@@ -35,7 +35,9 @@ pipeline {
                     // docker build -t my-app-image .
                     // '''
                     sh'''
-                      docker build -t $params.IMAGE_NAME:$params.IMAGE_TAG .
+                      IMAGE_NAME=${params.IMAGE_NAME}
+                      IMAGE_TAG=${params.IMAGE_TAG}
+                      docker build -t $IMAGE_NAME:$IMAGE_TAG .
                     ''' 
                 }
             }
@@ -50,8 +52,10 @@ pipeline {
                         passwordVariable: 'DOCKER_PASS'
                     )]) {
                         sh '''
+                        IMAGE_NAME=${params.IMAGE_NAME}
+                        IMAGE_TAG=${params.IMAGE_TAG}
                         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                        docker push $params.IMAGE_NAME:$params.IMAGE_TAG
+                        docker push $IMAGE_NAME:$IMAGE_TAG
                         '''
                     }
             }
