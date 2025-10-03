@@ -3,9 +3,6 @@ pipeline {
 
     environment {
         DOCKER_CREDENTIALS_ID = "dockerhub-credentials" 
-        IMAGE_NAME = "${env.IMAGE_NAME}"
-        IMAGE_TAG = "${env.IMAGE_TAG}"
-        REPO_URL = "${env.REPO_URL}"
     }
 
     stages {
