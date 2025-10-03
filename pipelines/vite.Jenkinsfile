@@ -16,7 +16,7 @@ pipeline {
         stage('clone repository'){
           steps{
                container('docker'){
-                   git branch: 'main', url: "${env.REPO_URL}"
+                   git branch: 'main', url: "${params.REPO_URL}"
               }
            }
         }
@@ -35,7 +35,7 @@ pipeline {
                     // docker build -t my-app-image .
                     // '''
                     sh'''
-                      docker build -t $IMAGE_NAME:$IMAGE_TAG .
+                      docker build -t $params.IMAGE_NAME:$params.IMAGE_TAG .
                     ''' 
                 }
             }
@@ -51,7 +51,7 @@ pipeline {
                     )]) {
                         sh '''
                         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                        docker push $IMAGE_NAME:$IMAGE_TAG
+                        docker push $params.IMAGE_NAME:$params.IMAGE_TAG
                         '''
                     }
             }
