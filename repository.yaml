@@ -5,7 +5,6 @@ repos:
     image:
       name: kabil07/demo-calculator
       tag: latest
-      port: "80"
     update: true
   - name: calc
     url: https://github.com/JAYMITHRAN/Jenkins.git
