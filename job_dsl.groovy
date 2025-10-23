@@ -13,6 +13,8 @@ config.repos.each { repo ->
         pipelineJob(jobName) {
             description("Pipeline for ${repo.name}")
             parameters {
+                stringParam('NAME', repo.name, 'Repository name')
+                stringParam('PORT', repo.image?.port ?: 80, 'Deployment port')
                 stringParam('REPO_URL', repo.url, 'Repository URL')
                 stringParam('IMAGE_NAME', repo.image?.name ?: '', 'Docker image name')
                 stringParam('IMAGE_TAG', repo.image?.tag ?: '', 'Docker image tag')
