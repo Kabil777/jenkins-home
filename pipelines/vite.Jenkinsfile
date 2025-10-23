@@ -70,7 +70,7 @@ pipeline {
               mkdir -p "$tmp_dir/apps/$NAME" && touch "$tmp_dir/apps/$NAME/deployment.yaml"
             fi
 
-            sed "s/{{name}}/${NAME}/g; s/\"{{port}}\"/${PORT}/g" apps/template/deployment.k8s.yaml >apps/$NAME/deployment.k8s.yaml
+            sed "s/{{name}}/${NAME}/g;  s/\"{{image}}\"/${IMAGE_NAME}/g" apps/template/deployment.k8s.yaml >apps/$NAME/deployment.k8s.yaml
             git add .
             git commit -m "Updating to newer image"
             git push origin main
