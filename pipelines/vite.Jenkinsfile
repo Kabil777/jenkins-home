@@ -58,8 +58,8 @@ pipeline {
       steps{
        container('docker') {
         withCredentials([sshUserPrivateKey(credentialsId: 'ssh-privatekey', keyFileVariable: 'SSH_KEY', usernameVariable: 'GIT_USER')]) {
-         sh """
-            tmp_dir=\$(mktemp -d)
+         sh '''
+            tmp_dir=$(mktemp -d)
             export GIT_SSH_COMMAND="ssh -i $SSH_KEY -o StrictHostKeyChecking=no"
             git clone git@github.com:Kabil777/argo-repo.git "$tmp_dir"
             cd "$tmp_dir"
@@ -75,7 +75,7 @@ pipeline {
             git add .
             git commit -m "Updating to newer image"
             git push origin main
-          """ 
+          '''
           }
         }
       }
