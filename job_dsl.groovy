@@ -18,7 +18,7 @@ config.repos.each { repo ->
                 stringParam('REPO_URL', repo.repo-url, 'Repository URL')
                 stringParam('IMAGE_NAME', repo.image?.name ?: '', 'Docker image name')
                 stringParam('IMAGE_TAG', repo.image?.tag ?: '', 'Docker image tag')
-                stringParam('URL', repo.url '', 'Deployment url')
+                stringParam('URL', repo.url ?: '', 'Deployment url')
             }
             definition {
                 cps {
