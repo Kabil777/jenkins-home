@@ -1,5 +1,5 @@
 repos:
-  - name: demo-calc
+  - name: calc
     repo-url: https://github.com/JAYMITHRAN/Jenkins.git
     url: calc.kabidev.in
     type: vite
@@ -7,10 +7,3 @@ repos:
       name: kabil07/demo-calculator
       tag: latest
     update: true
-  - name: calc
-    url: https://github.com/JAYMITHRAN/Jenkins.git
-    type: vite
-    image:
-      name: kabil07/demo-calculator
-      tag: latest
-    update: false
