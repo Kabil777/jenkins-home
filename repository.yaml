@@ -1,6 +1,7 @@
 repos:
   - name: demo-calc
-    url: https://github.com/JAYMITHRAN/Jenkins.git
+    repo-url: https://github.com/JAYMITHRAN/Jenkins.git
+    url: calc.kabidev.in
     type: vite
     image:
       name: kabil07/demo-calculator
