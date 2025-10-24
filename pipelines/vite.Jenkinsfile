@@ -54,34 +54,39 @@ pipeline {
         }
     }
 
-    stage('Update Argo cd manifest'){
-      steps{
-       container('docker') {
-        withCredentials([sshUserPrivateKey(credentialsId: 'ssh-privatekey', keyFileVariable: 'SSH_KEY', usernameVariable: 'GIT_USER')]) {
-         sh '''
-          set -e
-          tmp_dir=$(mktemp -d)
-          export GIT_SSH_COMMAND="ssh -i $SSH_KEY -o StrictHostKeyChecking=no"
+ stage('Update Argo CD manifest') {
+  steps {
+    container('docker') {
+      withCredentials([sshUserPrivateKey(credentialsId: 'ssh-privatekey', keyFileVariable: 'SSH_KEY', usernameVariable: 'GIT_USER')]) {
+        script {
+          def tmpDir = sh(script: 'mktemp -d', returnStdout: true).trim()
 
-          git clone git@github.com:Kabil777/argo-repo.git "$tmp_dir"
-          cd "$tmp_dir"
-          git config user.email "jenkins@kabidev.in"
-          git config user.name "Jenkins CI"
+          sh """
+            set -e
+            export GIT_SSH_COMMAND="ssh -i $SSH_KEY -o StrictHostKeyChecking=no"
 
-          if [[ ! -d "apps/${NAME}" ]]; then
-            mkdir -p "apps/${NAME}" && touch "apps/${NAME}/deployment.yaml"
-          fi
+            git clone git@github.com:Kabil777/argo-repo.git ${tmpDir}
+            cd ${tmpDir}
 
-          sed "s|{{name}}|${NAME}|g; s|{{image}}|${IMAGE_NAME}:${IMAGE_TAG}|g; s|{{url}}|${URL}|g" apps/template/deployment.k8s.yaml > "apps/${NAME}/deployment.yaml"
+            git config user.email "jenkins@kabidev.in"
+            git config user.name "Jenkins CI"
 
-          git add .
-          git commit -m "Updating to newer image"
-          git push origin main
-        '''
-          }
+            if [[ ! -d "apps/${NAME}" ]]; then
+              mkdir -p "apps/${NAME}" && touch "apps/${NAME}/deployment.yaml"
+            fi
+
+            sed "s|{{name}}|${NAME}|g; s|{{image}}|${IMAGE_NAME}:${IMAGE_TAG}|g; s|{{url}}|${URL}|g" apps/template/deployment.k8s.yaml > "apps/${NAME}/deployment.yaml"
+
+            git add .
+            git commit -m "Updating ${NAME} to ${IMAGE_TAG}" || echo "No changes to commit"
+            git push origin main
+          """
         }
       }
     }
+  }
+}
+
 }
     post {
         always {
