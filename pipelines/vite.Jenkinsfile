@@ -60,6 +60,7 @@ pipeline {
       withCredentials([sshUserPrivateKey(credentialsId: 'ssh-privatekey', keyFileVariable: 'SSH_KEY', usernameVariable: 'GIT_USER')]) {
         script {
           def tmpDir = sh(script: 'mktemp -d', returnStdout: true).trim()
+          def safeUrl = "${params.URL}".toString()
 
           sh """
             set -e
@@ -75,7 +76,7 @@ pipeline {
               mkdir -p "apps/${NAME}" && touch "apps/${NAME}/deployment.yaml"
             fi
 
-            sed "s|{{name}}|${NAME}|g; s|{{image}}|${IMAGE_NAME}:${IMAGE_TAG}|g; s|{{url}}|${URL}|g" apps/template/deployment.k8s.yaml > "apps/${NAME}/deployment.yaml"
+            sed "s|{{name}}|${NAME}|g; s|{{image}}|${IMAGE_NAME}:${IMAGE_TAG}|g; s|{{url}}|${safeUrl}|g" apps/template/deployment.k8s.yaml > "apps/${NAME}/deployment.yaml"
 
             git add .
             git commit -m "Updating ${NAME} to ${IMAGE_TAG}" || echo "No changes to commit"
